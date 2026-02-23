@@ -12,7 +12,10 @@ const displayTask = document.getElementById("displayTask");
 function init() {
   // データ読込
   load();
-  const taskList = getTaskList();
+  let taskList = getTaskList();
+  if (tasklist) {
+    taskList = [];
+  }
   // onclick紐づけ
   // 追加ボタン
   addTaskBtn.onclick = () => {
