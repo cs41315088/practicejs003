@@ -25,7 +25,9 @@ function init() {
     });
   });
   // レンダリング
-  render(taskList, displayTask, handlers);
+  if (taskList && taskList.length !== 0) {
+    render(taskList, displayTask, handlers);
+  }
 }
 
 init();
