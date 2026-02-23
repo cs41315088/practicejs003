@@ -32,6 +32,9 @@ export function getTaskList() {
 // ストレージ読み込み
 export function load() {
   state.taskList = loadStorage();
+  if (!state.taskList) {
+    state.taskList = [];
+  }
 }
 // ストレージ書き込み
 export function save() {
