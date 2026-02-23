@@ -7,6 +7,8 @@ export function render(list, display, handlers) {
     li.className = "";
     const divA = document.createElement("div");
     divA.className = "flex gap-2 items-center";
+    const divB = document.createElement("div");
+    divB.className = "flex items-center pl-7";
     const checkBox = document.createElement("input");
     checkBox.type = "checkbox";
     checkBox.checked = task.status === "done" ? true : false;
@@ -52,7 +54,8 @@ export function render(list, display, handlers) {
       deleteBtn.onclick = () => {
         handlers.onDeleteTask(task.id, display);
       };
-      divA.append(checkBox, name, deadline, editBtn, deleteBtn);
+      divA.append(checkBox, name, editBtn, deleteBtn);
+      divB.append(deadline);
     } else {
       const name = document.createElement("input");
       name.className = "";
@@ -79,9 +82,10 @@ export function render(list, display, handlers) {
         handlers.onCancelEdit(display);
       };
 
-      divA.append(checkBox, name, deadline, updateBtn, cancelBtn);
+      divA.append(checkBox, name, updateBtn, cancelBtn);
+      divB.append(deadline);
     }
-    li.append(divA);
+    li.append(divA, divB);
     display.append(li);
   });
 }
