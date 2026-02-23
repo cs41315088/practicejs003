@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>practice003</title>
+    <!-- tailwind読込 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- js読込 -->
+    <script type="module" src="main.js" defer></script>
+  </head>
+  <body>
+    <div class="max-w-2xl mx-auto p-6 bg-white shadow rounded-xl">
+      <div id="header">
+        <div class="flex gap-2 mb-4">
+          <input
+            type="text"
+            id="inputNewTask"
+            placeholder="やることを入力"
+            class="flex-1 border rounded px-3 py-2"
+          />
+          <button
+            type="button"
+            id="addTaskBtn"
+            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            追加
+          </button>
+        </div>
+        <div class="flex gap-2" id="filterButtons">
+          <button
+            type="button"
+            id="filter_all"
+            data-filter="all"
+            class="px-3 py-1 rounded border bg-green-500 text-white"
+          >
+            全て
+          </button>
+          <button
+            type="button"
+            id="filter_active"
+            data-filter="active"
+            class="px-3 py-1 rounded border bg-gray-200"
+          >
+            未完了
+          </button>
+          <button
+            type="button"
+            id="filter_done"
+            data-filter="done"
+            class="px-3 py-1 rounded border bg-gray-200"
+          >
+            完了済
+          </button>
+        </div>
+      </div>
+      <div>
+        <ul id="displayTask"></ul>
+      </div>
+    </div>
+  </body>
+</html>
