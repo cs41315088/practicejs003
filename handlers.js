@@ -12,14 +12,20 @@ import {
 } from "./state.js";
 
 export const handlers = {
+  // firestore対応
   // 追加
-  onAddTask(taskName, display) {
-    cancelEdit();
-    createTask(taskName.value);
-    save();
-    taskName.value = "";
-    const list = applyFilter();
-    render(list, display, handlers);
+  async onAddTask(taskName, display) {
+    try {
+      cancelEdit();
+      createTask(taskName.value);
+      await save();
+      taskName.value = "";
+      const list = applyFilter();
+      render(list, display, handlers);
+    } catch (e) {
+      alert("保存に失敗しました");
+      console.error(e);
+    }
   },
   onFilterBtn(btn, buttons, display) {
     // UI更新（全ボタンをリセット）
@@ -37,39 +43,64 @@ export const handlers = {
     const list = applyFilter(filter);
     render(list, display, handlers);
   },
-  onDeleteTask(id, display) {
-    deleteTask(id);
-    save();
-    const list = applyFilter();
-    render(list, display, handlers);
+  async onDeleteTask(id, display) {
+    try {
+      deleteTask(id);
+      await save();
+      const list = applyFilter();
+      render(list, display, handlers);
+    } catch (e) {
+      alert("保存に失敗しました");
+      console.error(e);
+    }
   },
   onEditTask(id, patch, display) {
-    cancelEdit();
-    updateTask(id, patch);
-    const list = applyFilter();
-    render(list, display, handlers);
+    try {
+      cancelEdit();
+      updateTask(id, patch);
+      const list = applyFilter();
+      render(list, display, handlers);
+    } catch (e) {
+      alert("保存に失敗しました");
+      console.error(e);
+    }
   },
   onCancelEdit(display) {
     cancelEdit();
     const list = applyFilter();
     render(list, display, handlers);
   },
-  onUpdateTask(id, patch, display) {
-    updateTask(id, patch);
-    save();
-    const list = applyFilter();
-    render(list, display, handlers);
+  async onUpdateTask(id, patch, display) {
+    try {
+      updateTask(id, patch);
+      await save();
+      const list = applyFilter();
+      render(list, display, handlers);
+    } catch (e) {
+      alert("保存に失敗しました");
+      console.error(e);
+    }
   },
-  onCheckTask(id, patch, display) {
-    updateTask(id, patch);
-    save();
-    const list = applyFilter();
-    render(list, display, handlers);
+  async onCheckTask(id, patch, display) {
+    try {
+      updateTask(id, patch);
+      await save();
+      const list = applyFilter();
+      render(list, display, handlers);
+    } catch (e) {
+      alert("保存に失敗しました");
+      console.error(e);
+    }
   },
-  ondrop(dragId, dropId, display) {
-    reorder(dragId, dropId);
-    save();
-    const list = applyFilter();
-    render(list, display, handlers);
+  async ondrop(dragId, dropId, display) {
+    try {
+      reorder(dragId, dropId);
+      await save();
+      const list = applyFilter();
+      render(list, display, handlers);
+    } catch (e) {
+      alert("保存に失敗しました");
+      console.error(e);
+    }
   },
 };

@@ -1,4 +1,6 @@
-import { loadStorage, saveStorage } from "./storage.js";
+// import { loadStorage, saveStorage } from "./storage.js";
+// firestore対応
+import { loadStorage, saveStorage } from "./storage_firestore.js";
 
 // タスクリスト
 const state = {
@@ -30,15 +32,15 @@ export function getTaskList() {
   return state.taskList;
 }
 // ストレージ読み込み
-export function load() {
-  state.taskList = loadStorage();
+export async function load() {
+  state.taskList = await loadStorage(); // firestore対応
   if (!state.taskList) {
     state.taskList = [];
   }
 }
 // ストレージ書き込み
-export function save() {
-  saveStorage(state.taskList);
+export async function save() {
+  await saveStorage(state.taskList); // firestore対応
 }
 // 条件指定
 export function applyFilter(filter) {
@@ -70,6 +72,7 @@ export function createTask(taskName) {
     status: "active",
     deadline: tomorrow,
     editFlg: false,
+    order: 0,
   };
   state.taskList.push(task);
 }
@@ -93,7 +96,7 @@ export function reorder(dragId, dropId) {
   const from = list.findIndex((t) => t.id === dragId);
   const to = list.findIndex((t) => t.id === dropId);
 
-  const [moved] = list.splice(from, 1);
+  const [moved] = list.splice(from, 1); // 配列の分割代入: 1つ目の要素だけ
   list.splice(to, 0, moved);
   state.taskList = list;
 }

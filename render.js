@@ -66,13 +66,16 @@ export function render(list, display, handlers) {
       divB.append(deadline);
     } else {
       const name = document.createElement("input");
-      name.className = "";
+      name.className = "border rounded px-2 py-1";
       name.value = task.name;
       const deadline = document.createElement("input");
       deadline.type = "date";
       deadline.value = task.deadline;
+      deadline.className = "border rounded px-2 py-1";
       const updateBtn = document.createElement("button");
       updateBtn.textContent = "更新";
+      updateBtn.className =
+        "whitespace-nowrap bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700";
       updateBtn.onclick = () => {
         handlers.onUpdateTask(
           task.id,
@@ -86,6 +89,8 @@ export function render(list, display, handlers) {
       };
       const cancelBtn = document.createElement("button");
       cancelBtn.textContent = "ｷｬﾝｾﾙ";
+      cancelBtn.className =
+        "whitespace-nowrap bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-500";
       cancelBtn.onclick = () => {
         handlers.onCancelEdit(display);
       };

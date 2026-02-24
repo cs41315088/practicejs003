@@ -9,54 +9,74 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- js読込 -->
     <script type="module" src="main.js" defer></script>
+    <!-- firebase -->
+    <script type="module" src="firebase-init.js"></script>
   </head>
   <body>
     <div class="max-w-2xl mx-auto p-6 bg-white shadow rounded-xl">
-      <div id="header">
-        <div class="flex gap-2 mb-4">
-          <input
-            type="text"
-            id="inputNewTask"
-            placeholder="やることを入力"
-            class="flex-1 border rounded px-3 py-2"
-          />
-          <button
-            type="button"
-            id="addTaskBtn"
-            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            追加
-          </button>
-        </div>
-        <div class="flex gap-2" id="filterButtons">
-          <button
-            type="button"
-            id="filter_all"
-            data-filter="all"
-            class="px-3 py-1 rounded border bg-green-500 text-white"
-          >
-            全て
-          </button>
-          <button
-            type="button"
-            id="filter_active"
-            data-filter="active"
-            class="px-3 py-1 rounded border bg-gray-200"
-          >
-            未完了
-          </button>
-          <button
-            type="button"
-            id="filter_done"
-            data-filter="done"
-            class="px-3 py-1 rounded border bg-gray-200"
-          >
-            完了済
-          </button>
-        </div>
+      <div id="authArea" class="flex justify-center">
+        <button
+          id="googleLoginBtn"
+          class="bg-blue-600 text-white text-xl px-10 py-5 rounded-xl hover:bg-blue-700"
+        >
+          Googleでログイン
+        </button>
       </div>
-      <div>
-        <ul id="displayTask"></ul>
+      <div id="app" class="hidden">
+        <div id="header">
+          <div class="flex gap-2 mb-4">
+            <input
+              type="text"
+              id="inputNewTask"
+              placeholder="やることを入力"
+              class="flex-1 border rounded px-3 py-2"
+            />
+            <button
+              type="button"
+              id="addTaskBtn"
+              class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              追加
+            </button>
+          </div>
+          <div class="flex gap-2 mb-4" id="filterButtons">
+            <button
+              type="button"
+              id="filter_all"
+              data-filter="all"
+              class="px-3 py-1 rounded border bg-green-500 text-white"
+            >
+              全て
+            </button>
+            <button
+              type="button"
+              id="filter_active"
+              data-filter="active"
+              class="px-3 py-1 rounded border bg-gray-200"
+            >
+              未完了
+            </button>
+            <button
+              type="button"
+              id="filter_done"
+              data-filter="done"
+              class="px-3 py-1 rounded border bg-gray-200"
+            >
+              完了済
+            </button>
+          </div>
+        </div>
+        <div>
+          <ul id="displayTask" class="space-y-2"></ul>
+        </div>
+        <div id="footer" class="mt-10 flex justify-end">
+          <button
+            id="logoutBtn"
+            class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          >
+            ログアウト
+          </button>
+        </div>
       </div>
     </div>
   </body>
