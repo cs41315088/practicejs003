@@ -6,6 +6,7 @@ import {
   cancelEdit,
   createTask,
   deleteTask,
+  reorder,
   save,
   updateTask,
 } from "./state.js";
@@ -13,6 +14,7 @@ import {
 export const handlers = {
   // 追加
   onAddTask(taskName, display) {
+    cancelEdit();
     createTask(taskName.value);
     save();
     taskName.value = "";
@@ -60,6 +62,12 @@ export const handlers = {
   },
   onCheckTask(id, patch, display) {
     updateTask(id, patch);
+    save();
+    const list = applyFilter();
+    render(list, display, handlers);
+  },
+  ondrop(dragId, dropId, display) {
+    reorder(dragId, dropId);
     save();
     const list = applyFilter();
     render(list, display, handlers);

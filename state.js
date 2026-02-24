@@ -87,3 +87,13 @@ export function deleteTask(id) {
 export function cancelEdit() {
   state.taskList.forEach((task) => (task.editFlg = false));
 }
+// 並べ替え
+export function reorder(dragId, dropId) {
+  const list = state.taskList;
+  const from = list.findIndex((t) => t.id === dragId);
+  const to = list.findIndex((t) => t.id === dropId);
+
+  const [moved] = list.splice(from, 1);
+  list.splice(to, 0, moved);
+  state.taskList = list;
+}

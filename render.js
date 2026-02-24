@@ -5,6 +5,8 @@ export function render(list, display, handlers) {
   list.forEach((task) => {
     const li = document.createElement("li");
     li.className = "";
+    li.draggable = "true";
+    li.dataset.id = task.id;
     const divA = document.createElement("div");
     divA.className = "flex gap-2 items-center";
     const divB = document.createElement("div");
@@ -42,18 +44,24 @@ export function render(list, display, handlers) {
       deleteBtn.innerHTML = `
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862
-                     a2 2 0 01-1.995-1.858L5 7m5
-                     4v6m4-6v6M1 7h22M9 7V4
+                     a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M9 7V4
                      a1 1 0 011-1h4a1 1 0 011 1v3" />
             </svg>
             `;
       deleteBtn.onclick = () => {
         handlers.onDeleteTask(task.id, display);
       };
+      if (task.status === "done") {
+        name.classList.add("line-through", "text-gray-400");
+        deadline.classList.add("line-through", "text-gray-400");
+        editBtn.classList.add("text-gray-400");
+        deleteBtn.classList.add("text-gray-400");
+      } else if (new Date() > new Date(deadline.textContent)) {
+        name.classList.add("text-red-600", "font-semibold");
+        deadline.classList.add("text-red-600", "font-semibold");
+      }
       divA.append(checkBox, name, editBtn, deleteBtn);
       divB.append(deadline);
     } else {
@@ -81,7 +89,6 @@ export function render(list, display, handlers) {
       cancelBtn.onclick = () => {
         handlers.onCancelEdit(display);
       };
-
       divA.append(checkBox, name, updateBtn, cancelBtn);
       divB.append(deadline);
     }

@@ -1,6 +1,6 @@
 import { handlers } from "./handlers.js";
 import { render } from "./render.js";
-import { getTaskList, load } from "./state.js";
+import { applyFilter, getTaskList, load, reorder, save } from "./state.js";
 
 // html要素取得
 const inputNewTask = document.getElementById("inputNewTask");
@@ -24,6 +24,22 @@ function init() {
       handlers.onFilterBtn(btn, buttons, displayTask);
     });
   });
+  // リスト内要素のドラッグ
+  let dragId = null;
+
+  displayTask.addEventListener("dragstart", (e) => {
+    dragId = e.target.dataset.id; // e: イベント情報の塊
+  });
+
+  displayTask.addEventListener("dragover", (e) => {
+    e.preventDefault(); // ← drop可能にする必須
+  });
+
+  displayTask.addEventListener("drop", (e) => {
+    const dropId = e.target.closest("li").dataset.id;
+    handlers.ondrop(dragId, dropId, displayTask);
+  });
+
   // レンダリング
   if (taskList && taskList.length !== 0) {
     render(taskList, displayTask, handlers);
