@@ -32,15 +32,15 @@ export function getTaskList() {
   return state.taskList;
 }
 // ストレージ読み込み
-export async function load() {
-  state.taskList = await loadStorage(); // firestore対応
+export async function load(uid) {
+  state.taskList = await loadStorage(uid); // firestore対応
   if (!state.taskList) {
     state.taskList = [];
   }
 }
 // ストレージ書き込み
-export async function save() {
-  await saveStorage(state.taskList); // firestore対応
+export async function save(uid) {
+  await saveStorage(uid, state.taskList); // firestore対応
 }
 // 条件指定
 export function applyFilter(filter) {

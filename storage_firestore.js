@@ -12,12 +12,8 @@ import {
 
 const colRef = collection(db, "todos"); // コレクション参照
 // 読み込み
-export async function loadStorage() {
-  const q = query(
-    colRef,
-    where("uid", "==", auth.currentUser.uid),
-    orderBy("order"),
-  ); // order byする
+export async function loadStorage(uid) {
+  const q = query(colRef, where("uid", "==", uid), orderBy("order")); // order byする
   const snapshot = await getDocs(q); // ドキュメント配列
 
   return snapshot.docs.map((d) => ({
@@ -28,13 +24,9 @@ export async function loadStorage() {
 }
 
 // 保存(全置換方式) => order振り直しの観点からも洗い替え推奨
-export async function saveStorage(list) {
+export async function saveStorage(uid, list) {
   // 既存削除 => 再保存(ローカルストレージと同じ動きで)
-  const q = query(
-    colRef,
-    where("uid", "==", auth.currentUser.uid),
-    orderBy("order"),
-  ); // order byする
+  const q = query(colRef, where("uid", "==", uid), orderBy("order")); // order byする
   const snapshot = await getDocs(q); // ドキュメント配列
   for (const d of snapshot.docs) {
     await deleteDoc(doc(db, "todos", d.id));
@@ -42,7 +34,7 @@ export async function saveStorage(list) {
   for (let i = 0; i < list.length; i++) {
     const task = list[i];
     task.order = i;
-    task.uid = auth.currentUser.uid; // TODO 見直し必要
+    task.uid = uid; // TODO 見直し必要
     await setDoc(doc(db, "todos", task.id), task);
   }
 }

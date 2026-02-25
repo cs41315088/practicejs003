@@ -14,11 +14,11 @@ import {
 export const handlers = {
   // firestore対応
   // 追加
-  async onAddTask(taskName, display) {
+  async onAddTask(uid, taskName, display) {
     try {
       cancelEdit();
       createTask(taskName.value);
-      await save();
+      await save(uid);
       taskName.value = "";
       const list = applyFilter();
       render(list, display, handlers);
@@ -43,10 +43,10 @@ export const handlers = {
     const list = applyFilter(filter);
     render(list, display, handlers);
   },
-  async onDeleteTask(id, display) {
+  async onDeleteTask(uid, id, display) {
     try {
       deleteTask(id);
-      await save();
+      await save(uid);
       const list = applyFilter();
       render(list, display, handlers);
     } catch (e) {
@@ -70,7 +70,7 @@ export const handlers = {
     const list = applyFilter();
     render(list, display, handlers);
   },
-  async onUpdateTask(id, patch, display) {
+  async onUpdateTask(uid, id, patch, display) {
     try {
       updateTask(id, patch);
       await save();
@@ -81,7 +81,7 @@ export const handlers = {
       console.error(e);
     }
   },
-  async onCheckTask(id, patch, display) {
+  async onCheckTask(uid, id, patch, display) {
     try {
       updateTask(id, patch);
       await save();
@@ -92,7 +92,7 @@ export const handlers = {
       console.error(e);
     }
   },
-  async ondrop(dragId, dropId, display) {
+  async ondrop(uid, dragId, dropId, display) {
     try {
       reorder(dragId, dropId);
       await save();
