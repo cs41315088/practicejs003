@@ -8,6 +8,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
 const provider = new GoogleAuthProvider();
+export const userInfo = { useruid: null };
 
 export function loginWithGoogle() {
   return signInWithPopup(auth, provider);

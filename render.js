@@ -1,3 +1,5 @@
+import { userInfo } from "./auth.js";
+
 // 引数データをもとにレンダリング
 export function render(list, display, handlers) {
   // リセット
@@ -17,7 +19,12 @@ export function render(list, display, handlers) {
     checkBox.className = "w-5 h-5 accent-green-600 cursor-pointer";
     checkBox.onclick = () => {
       const status = checkBox.checked === true ? "done" : "active";
-      handlers.onUpdateTask(user.uid, task.id, { status: status }, display);
+      handlers.onUpdateTask(
+        userInfo.useruid,
+        task.id,
+        { status: status },
+        display,
+      );
     };
     if (!task.editFlg) {
       const name = document.createElement("div");
@@ -51,7 +58,7 @@ export function render(list, display, handlers) {
             </svg>
             `;
       deleteBtn.onclick = () => {
-        handlers.onDeleteTask(user.uid, task.id, display);
+        handlers.onDeleteTask(userInfo.useruid, task.id, display);
       };
       if (task.status === "done") {
         name.classList.add("line-through", "text-gray-400");
@@ -78,7 +85,7 @@ export function render(list, display, handlers) {
         "whitespace-nowrap bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700";
       updateBtn.onclick = () => {
         handlers.onUpdateTask(
-          user.uid,
+          userInfo.useruid,
           task.id,
           {
             name: name.value,

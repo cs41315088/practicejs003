@@ -2,7 +2,12 @@ import { auth } from "./firebase-init.js";
 import { handlers } from "./handlers.js";
 import { render } from "./render.js";
 import { getTaskList, load } from "./state.js";
-import { loginWithGoogle, logout, handleRedirectResult } from "./auth.js";
+import {
+  loginWithGoogle,
+  logout,
+  handleRedirectResult,
+  userInfo,
+} from "./auth.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 import { getApps } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
 import {
@@ -40,12 +45,12 @@ async function init() {
     console.log(auth.app.name);
     console.log("user:", user);
     console.log("currentUser:", auth.currentUser);
-    // userの中身？
     if (user) {
+      userInfo.useruid = user.uid;
       authArea.style.display = "none";
       appArea.style.display = "block";
       // データ読込
-      await load(user.uid); // firestore対応
+      await load(userInfo.useruid); // firestore対応
       let taskList = getTaskList();
       // レンダリング
       if (taskList && taskList.length !== 0) {
@@ -56,13 +61,13 @@ async function init() {
       // onclick紐づけ
       // 追加ボタン
       addTaskBtn.onclick = () => {
-        handlers.onAddTask(user.uid, inputNewTask, displayTask);
+        handlers.onAddTask(userInfo.useruid, inputNewTask, displayTask);
       };
       // 追加時enterkey
       inputNewTask.addEventListener("keydown", (e) => {
         if (e.key === "Enter" && !e.isComposing) {
           // e.isComposing: 変換時true
-          handlers.onAddTask(user.uid, inputNewTask, displayTask);
+          handlers.onAddTask(userInfo.useruid, inputNewTask, displayTask);
         }
       });
       // フィルタボタン群
@@ -84,7 +89,7 @@ async function init() {
 
       displayTask.addEventListener("drop", (e) => {
         const dropId = e.target.closest("li").dataset.id;
-        handlers.ondrop(user.uid, dragId, dropId, displayTask);
+        handlers.ondrop(userInfo.useruid, dragId, dropId, displayTask);
       });
     } else {
       authArea.style.display = "flex";

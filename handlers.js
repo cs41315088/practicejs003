@@ -73,7 +73,7 @@ export const handlers = {
   async onUpdateTask(uid, id, patch, display) {
     try {
       updateTask(id, patch);
-      await save();
+      await save(uid);
       const list = applyFilter();
       render(list, display, handlers);
     } catch (e) {
@@ -84,7 +84,7 @@ export const handlers = {
   async onCheckTask(uid, id, patch, display) {
     try {
       updateTask(id, patch);
-      await save();
+      await save(uid);
       const list = applyFilter();
       render(list, display, handlers);
     } catch (e) {
@@ -95,7 +95,7 @@ export const handlers = {
   async ondrop(uid, dragId, dropId, display) {
     try {
       reorder(dragId, dropId);
-      await save();
+      await save(uid);
       const list = applyFilter();
       render(list, display, handlers);
     } catch (e) {
